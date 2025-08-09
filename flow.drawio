@@ -1,0 +1,209 @@
+<mxfile host="65bd71144e">
+    <diagram name="AI英会話アプリフロー" id="flow-diagram">
+        <mxGraphModel dx="671" dy="335" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="user" value="ユーザー" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e1f5fe;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="40" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="access" value="アプリにアクセス" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="35" y="140" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="login_screen" value="ログイン画面を表示" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="140" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="login_input" value="ログイン情報を入力&lt;br&gt;してログインボタンを押す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="35" y="220" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="login_verify" value="ログイン情報を検証&lt;br&gt;正しいか？" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="210" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="menu" value="メニュー画面を表示" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="320" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="start_conversation" value="英会話開始ボタンを押す&lt;br&gt;または英会話履歴を選択する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="35" y="400" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="conversation_screen" value="英会話画面を表示&lt;br&gt;履歴があれば一緒に表示" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="400" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="record_button" value="録音ボタンを押す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="35" y="500" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="start_record" value="録音を開始する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="500" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="speak" value="英語で話して、話終&lt;br&gt;わったら、再度録音&lt;br&gt;ボタンを押す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="35" y="580" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="end_record" value="録音を終了する&lt;br&gt;音声を保存する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="580" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="save_audio_path" value="テーブルに音声ファ&lt;br&gt;イルパスを登録" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="680" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="whisper_api" value="音声ファイルで&lt;br&gt;Whisper APIリクエスト" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="780" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="speech_to_text" value="音声ファイルをテキ&lt;br&gt;ストに変換してレス&lt;br&gt;ポンスを返す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="780" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="save_user_message" value="ユーザーのメッセー&lt;br&gt;ジを登録" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="900" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="gpt_api" value="ユーザーのメッセージで&lt;br&gt;GPT APIリクエスト&lt;br&gt;を送信" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1000" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ai_response" value="テキストに対する返&lt;br&gt;答を生成してレスポ&lt;br&gt;ンスを返す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="1000" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="save_ai_message" value="返答のテキスト（AIのメ&lt;br&gt;ッセージ）をDBに登録" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1120" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="tts_api" value="AIのメッセージでTTS&lt;br&gt;APIリクエスト" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1220" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="text_to_speech" value="テキストから音声を&lt;br&gt;生成してレスポンス&lt;br&gt;を返す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="1220" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="save_ai_audio" value="AIのメッセージとして音&lt;br&gt;声ファイルを保存" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1340" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="save_ai_audio_path" value="音声ファイルパスをDB&lt;br&gt;に登録" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1440" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="display_ai_text" value="英会話画面にAIの返答の&lt;br&gt;テキストを表示" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1540" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="play_ai_audio" value="英会話画面でAIの音声を&lt;br&gt;再生" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1640" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="translate_button" value="日本語訳ボタンを押す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="1640" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="translate_request" value="GPTに英語のテキストを&lt;br&gt;日本語訳するリクエスト&lt;br&gt;を送信" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="1720" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="translate_response" value="英語のテキストを日本語&lt;br&gt;訳してレスポンスを返す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="1720" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="save_translation" value="日本語訳のメッセージを&lt;br&gt;DBに登録" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="1840" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="user" target="access" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="access" target="login_screen" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="login_screen" target="login_input" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="login_input" target="login_verify" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="login_verify" target="login_input" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="login_verify" target="menu" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="menu" target="start_conversation" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="start_conversation" target="conversation_screen" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="conversation_screen" target="record_button" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="record_button" target="start_record" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="start_record" target="speak" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="speak" target="end_record" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="end_record" target="save_audio_path" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="save_audio_path" target="whisper_api" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="whisper_api" target="speech_to_text" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="speech_to_text" target="save_user_message" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="save_user_message" target="gpt_api" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gpt_api" target="ai_response" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ai_response" target="save_ai_message" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="save_ai_message" target="tts_api" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="tts_api" target="text_to_speech" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="text_to_speech" target="save_ai_audio" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="save_ai_audio" target="save_ai_audio_path" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="save_ai_audio_path" target="display_ai_text" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="display_ai_text" target="play_ai_audio" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="play_ai_audio" target="translate_button" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="translate_button" target="translate_request" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="translate_request" target="translate_response" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="translate_response" target="save_translation" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="save_translation" target="conversation_screen" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="470" y="1920"/>
+                            <mxPoint x="20" y="1920"/>
+                            <mxPoint x="20" y="430"/>
+                            <mxPoint x="270" y="430"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="play_ai_audio" target="record_button" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="20" y="1670"/>
+                            <mxPoint x="20" y="520"/>
+                            <mxPoint x="95" y="520"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="no_label" value="No" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="230" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="yes_label" value="Yes" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="1" vertex="1">
+                    <mxGeometry x="255" y="290" width="30" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
