@@ -1,7 +1,7 @@
 
 "use client";
 
-import { HiLightningBolt, HiPlus, HiChatAlt2 } from "react-icons/hi";
+import { HiPlus, HiChatAlt2 } from "react-icons/hi";
 
 export function SideMenu() {
     return (
@@ -9,8 +9,8 @@ export function SideMenu() {
             {/* アプリタイトル */}
             <div className="p-6 border-b border-green-500">
                 <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center">
-                        <HiLightningBolt className="w-5 h-5 text-white" />
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
+                        <img src="/favicon.png" alt="MyEnglishApp" className="w-full h-full object-cover" />
                     </div>
                     <span className="text-xl font-bold text-white">MyEnglishApp</span>
                 </div>
