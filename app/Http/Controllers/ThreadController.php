@@ -11,7 +11,7 @@ use App\Models\Thread;
 class ThreadController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * トップ画面を表示
      */
     public function index(): InertiaResponse
     {
@@ -35,11 +35,11 @@ class ThreadController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 英会話画面を表示
      */
     public function show(Thread $thread)
     {
-        //
+        return Inertia::render('Thread/Show');
     }
 
     /**
