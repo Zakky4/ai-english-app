@@ -14,13 +14,13 @@ export default function Top({ }) {
     return (
         <>
             <Head title="MyEnglishApp - 英会話学習記録" />
-            <div className="flex h-screen bg-gray-50">
+            <div className="flex h-screen bg-gray-800">
                 <SideMenu />
 
                 {/* メインコンテンツエリア */}
-                <div className="flex-1 bg-gray-800 relative">
+                <div className="flex-1 bg-gray-800 relative flex flex-col">
                     {/* ヘッダー */}
-                    <header className="bg-gray-800 px-6 py-4">
+                    <header className="bg-gray-800 px-6 py-4 flex-shrink-0">
                         <div className="flex items-center justify-between">
                             <div></div>
                             <div className="flex items-center space-x-4">
@@ -30,9 +30,9 @@ export default function Top({ }) {
                     </header>
 
                     {/* チャットエリア */}
-                    <div className="flex-1 flex flex-col h-full">
+                    <div className="flex-1 flex flex-col min-h-0">
                         {/* チャットメッセージ */}
-                        <div className="flex-1 px-6 py-4 overflow-y-auto space-y-4">
+                        <div className="flex-1 px-6 pt-4 pb-20 overflow-y-auto space-y-4">
                             {messages.map((message) => (
                                 <div
                                     key={message.id}
