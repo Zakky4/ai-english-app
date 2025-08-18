@@ -7,7 +7,7 @@ export default function LogoutButton({
     ...props
 }) {
     const handleLogout = () => {
-        router.post('/logout')
+        router.post(route('logout'))
     }
 
     return (
