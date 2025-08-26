@@ -20,5 +20,29 @@ class ThreadSeeder extends Seeder
         Thread::create([
             'title' => '英会話の練習',
         ]);
+        Thread::create([
+            'title' => '英会話スレッド1',
+        ]);
+        Thread::create([
+            'title' => '英会話スレッド2',
+        ]);
+        Thread::create([
+            'title' => '英会話スレッド3',
+        ]);
+        Thread::create([
+            'title' => '英会話スレッド4',
+        ]);
+        Thread::create([
+            'title' => '英会話スレッド5',
+        ]);
+        Thread::create([
+            'title' => '英会話スレッド6',
+        ]);
+        Thread::create([
+            'title' => '英会話スレッド7',
+        ]);
+        Thread::create([
+            'title' => '英会話スレッド8',
+        ]);
     }
 }
