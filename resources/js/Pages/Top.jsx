@@ -2,12 +2,12 @@ import { Head } from '@inertiajs/react'
 import { SideMenu } from '../Components/SideMenu'
 import LogoutButton from '../Components/LogoutButton'
 
-export default function Top({ }) {
+export default function Top({ threads }) {
     return (
         <>
             <Head title="MyEnglishApp - 英会話学習記録" />
             <div className="flex h-screen bg-gray-50">
-                <SideMenu />
+                <SideMenu threads={threads} />
                 
                 {/* メインコンテンツエリア */}
                 <div className="flex-1 bg-gray-800">

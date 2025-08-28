@@ -3,7 +3,7 @@
 
 import { HiPlus, HiChatAlt2 } from "react-icons/hi";
 
-export function SideMenu() {
+export function SideMenu({ threads = [] }) {
     return (
         <div className="w-64 h-screen bg-green-600 text-white flex flex-col">
             {/* アプリタイトル */}
@@ -29,82 +29,22 @@ export function SideMenu() {
             {/* 英会話スレッド一覧 - スクロール可能 */}
             <div className="flex-1 overflow-y-auto">
                 <div className="p-4 space-y-2">
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド1</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド2</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド3</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド4</span>
-                    </a>
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド1</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド2</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド3</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド4</span>
-                    </a>
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド1</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド2</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド3</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド4</span>
-                    </a>
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド1</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド2</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド3</span>
-                    </a>
-                    
-                    <a href="#" className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors">
-                        <HiChatAlt2 className="w-5 h-5 text-blue-300" />
-                        <span className="font-medium">英会話スレッド4</span>
-                    </a>
+                    {threads.length > 0 ? (
+                        threads.map((thread) => (
+                            <a 
+                                key={thread.id} 
+                                href={`/thread/${thread.id}`}
+                                className="flex items-center space-x-3 p-3 text-white hover:bg-green-500 rounded-lg transition-colors"
+                            >
+                                <HiChatAlt2 className="w-5 h-5 text-blue-300" />
+                                <span className="font-medium truncate">{thread.title}</span>
+                            </a>
+                        ))
+                    ) : (
+                        <div className="text-center text-gray-300 py-4">
+                            <p>スレッドがありません</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

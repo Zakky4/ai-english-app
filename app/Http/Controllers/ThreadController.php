@@ -15,7 +15,12 @@ class ThreadController extends Controller
      */
     public function index(): InertiaResponse
     {
-        return Inertia::render('Top');
+        // 全スレッドを取得（作成日時順）
+        $threads = Thread::orderBy('created_at', 'desc')->get();
+        
+        return Inertia::render('Top', [
+            'threads' => $threads
+        ]);
     }
 
     /**
