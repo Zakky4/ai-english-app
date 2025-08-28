@@ -44,7 +44,13 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        return Inertia::render('Thread/Show');
+        // 全スレッドを取得（作成日時順）
+        $threads = Thread::orderBy('created_at', 'desc')->get();
+        
+        return Inertia::render('Thread/Show', [
+            'thread' => $thread,
+            'threads' => $threads
+        ]);
     }
 
     /**

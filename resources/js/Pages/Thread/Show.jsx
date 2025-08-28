@@ -3,7 +3,7 @@ import { SideMenu } from '../../Components/SideMenu'
 import LogoutButton from '../../Components/LogoutButton'
 import { HiSpeakerphone, HiMicrophone, HiTranslate } from 'react-icons/hi'
 
-export default function Top({ }) {
+export default function Top({ thread, threads }) {
     // サンプルのチャットデータ（実際の実装ではpropsやstateから取得）
     const messages = [
         { id: 1, type: 'user', content: 'I would like to improve my English conversation skills.', timestamp: '10:00' },
@@ -15,14 +15,16 @@ export default function Top({ }) {
         <>
             <Head title="MyEnglishApp - 英会話学習記録" />
             <div className="flex h-screen bg-gray-800">
-                <SideMenu />
+                <SideMenu threads={threads} />
 
                 {/* メインコンテンツエリア */}
                 <div className="flex-1 bg-gray-800 relative flex flex-col">
                     {/* ヘッダー */}
                     <header className="bg-gray-800 px-6 py-4 flex-shrink-0">
                         <div className="flex items-center justify-between">
-                            <div></div>
+                            <div className="text-white text-lg font-semibold">
+                                {thread.title}
+                            </div>
                             <div className="flex items-center space-x-4">
                                 <LogoutButton />
                             </div>
