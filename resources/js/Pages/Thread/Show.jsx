@@ -70,12 +70,12 @@ export default function Show({ thread, threads, messages }) {
                                     {message.sender === 1 && (
                                         <div className="flex items-center space-x-2">
                                             {/* ユーザーメッセージ */}
-                                            <div className="bg-gray-300 rounded-lg px-4 py-2 max-w-xs">
-                                                <p className="text-gray-800">{message.message_en}</p>
+                                            <div className="bg-blue-500 rounded-lg px-4 py-2 max-w-xs">
+                                                <p className="text-white">{message.message_en}</p>
                                                 {message.message_ja && (
-                                                    <p className="text-gray-600 text-sm mt-1">{message.message_ja}</p>
+                                                    <p className="text-blue-100 text-sm mt-1">{message.message_ja}</p>
                                                 )}
-                                                <p className="text-gray-500 text-xs mt-1">
+                                                <p className="text-blue-200 text-xs mt-1">
                                                     {new Date(message.created_at).toLocaleTimeString('ja-JP', {
                                                         hour: '2-digit',
                                                         minute: '2-digit'
