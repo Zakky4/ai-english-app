@@ -3,13 +3,7 @@ import { SideMenu } from '../../Components/SideMenu'
 import LogoutButton from '../../Components/LogoutButton'
 import { HiSpeakerphone, HiMicrophone, HiTranslate } from 'react-icons/hi'
 
-export default function Top({ thread, threads }) {
-    // サンプルのチャットデータ（実際の実装ではpropsやstateから取得）
-    const messages = [
-        { id: 1, type: 'user', content: 'I would like to improve my English conversation skills.', timestamp: '10:00' },
-        { id: 2, type: 'ai', content: 'I would like to improve my English conversation skills.', timestamp: '10:01' },
-        { id: 3, type: 'user', content: 'I would like to improve my English conversation skills.', timestamp: '10:02' },
-    ]
+export default function Show({ thread, threads, messages }) {
 
     return (
         <>
@@ -38,9 +32,9 @@ export default function Top({ thread, threads }) {
                             {messages.map((message) => (
                                 <div
                                     key={message.id}
-                                    className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                                    className={`flex ${message.sender === 1 ? 'justify-end' : 'justify-start'}`}
                                 >
-                                    {message.type === 'ai' && (
+                                    {message.sender === 2 && (
                                         <div className="flex items-center space-x-2">
                                             {/* AIアイコン */}
                                             <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
@@ -49,7 +43,16 @@ export default function Top({ thread, threads }) {
 
                                             {/* AIメッセージ */}
                                             <div className="bg-gray-300 rounded-lg px-4 py-2 max-w-xs">
-                                                <p className="text-gray-800">{message.content}</p>
+                                                <p className="text-gray-800">{message.message_en}</p>
+                                                {message.message_ja && (
+                                                    <p className="text-gray-600 text-sm mt-1">{message.message_ja}</p>
+                                                )}
+                                                <p className="text-gray-500 text-xs mt-1">
+                                                    {new Date(message.created_at).toLocaleTimeString('ja-JP', {
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}
+                                                </p>
                                             </div>
 
                                             {/* スピーカーボタン */}
@@ -64,11 +67,20 @@ export default function Top({ thread, threads }) {
                                         </div>
                                     )}
 
-                                    {message.type === 'user' && (
+                                    {message.sender === 1 && (
                                         <div className="flex items-center space-x-2">
                                             {/* ユーザーメッセージ */}
                                             <div className="bg-gray-300 rounded-lg px-4 py-2 max-w-xs">
-                                                <p className="text-gray-800">{message.content}</p>
+                                                <p className="text-gray-800">{message.message_en}</p>
+                                                {message.message_ja && (
+                                                    <p className="text-gray-600 text-sm mt-1">{message.message_ja}</p>
+                                                )}
+                                                <p className="text-gray-500 text-xs mt-1">
+                                                    {new Date(message.created_at).toLocaleTimeString('ja-JP', {
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}
+                                                </p>
                                             </div>
 
                                             {/* ユーザーラベル */}
