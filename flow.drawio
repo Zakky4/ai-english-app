@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="AI英会話アプリフロー" id="flow-diagram">
-        <mxGraphModel dx="671" dy="335" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
+        <mxGraphModel dx="1100" dy="321" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -17,16 +17,16 @@
                     <mxGeometry x="35" y="220" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="login_verify" value="ログイン情報を検証&lt;br&gt;正しいか？" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="200" y="210" width="120" height="80" as="geometry"/>
+                    <mxGeometry x="280" y="200" width="140" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="menu" value="メニュー画面を表示" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="200" y="320" width="120" height="40" as="geometry"/>
+                <mxCell id="menu" value="トップ画面を表示" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="290" y="320" width="120" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="start_conversation" value="英会話開始ボタンを押す&lt;br&gt;または英会話履歴を選択する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="35" y="400" width="140" height="60" as="geometry"/>
+                <mxCell id="start_conversation" value="新規スレッド作成ボタンを押す&lt;br&gt;または英会話履歴を選択する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="7.5" y="360" width="175" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="conversation_screen" value="英会話画面を表示&lt;br&gt;履歴があれば一緒に表示" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="200" y="400" width="140" height="60" as="geometry"/>
+                    <mxGeometry x="290" y="400" width="140" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="record_button" value="録音ボタンを押す" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="35" y="500" width="120" height="40" as="geometry"/>
@@ -188,6 +188,11 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="2" value="Text" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="arrow30">
+                    <mxGeometry x="0.9278" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="arrow31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="play_ai_audio" target="record_button" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
@@ -207,4 +212,3 @@
         </mxGraphModel>
     </diagram>
 </mxfile>
-

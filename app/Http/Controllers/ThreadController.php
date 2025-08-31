@@ -25,19 +25,18 @@ class ThreadController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 新規スレッド作成
      */
-    public function create()
+    public function store()
     {
-        //
-    }
+        // 現在日時をタイトルとして新しいThreadを作成
+        $now = now()->format('Y-m-d H:i:s');
+        $thread = Thread::create([
+            'title' => $now,
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreThreadRequest $request)
-    {
-        //
+        // 作成したスレッドのshowアクションへリダイレクト
+        return redirect()->route('thread.show', ['threadId' => $thread->id]);
     }
 
     /**
