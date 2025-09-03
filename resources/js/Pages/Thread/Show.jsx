@@ -69,6 +69,7 @@ export default function Show({ thread, threads, messages }) {
             })
 
             console.log('音声ファイルが正常に送信されました')
+            location.reload()
         } catch (error) {
             console.error('音声ファイルの送信に失敗しました:', error)
             alert('音声ファイルの送信に失敗しました。')
@@ -125,6 +126,15 @@ export default function Show({ thread, threads, messages }) {
                                                 {message.message_ja && (
                                                     <p className="text-gray-600 text-sm mt-1">{message.message_ja}</p>
                                                 )}
+                                                {message.audio_file_path && (
+                                                    <div className="mt-2">
+                                                        <audio controls className="w-full">
+                                                            <source src={`/storage/${message.audio_file_path}`} type="audio/webm" />
+                                                            <source src={`/storage/${message.audio_file_path}`} type="audio/mpeg" />
+                                                            お使いのブラウザは音声再生をサポートしていません。
+                                                        </audio>
+                                                    </div>
+                                                )}
                                                 <p className="text-gray-500 text-xs mt-1">
                                                     {new Date(message.created_at).toLocaleTimeString('ja-JP', {
                                                         hour: '2-digit',
@@ -152,6 +162,15 @@ export default function Show({ thread, threads, messages }) {
                                                 <p className="text-white">{message.message_en}</p>
                                                 {message.message_ja && (
                                                     <p className="text-blue-100 text-sm mt-1">{message.message_ja}</p>
+                                                )}
+                                                {message.audio_file_path && (
+                                                    <div className="mt-2">
+                                                        <audio controls className="w-full">
+                                                            <source src={`/storage/${message.audio_file_path}`} type="audio/webm" />
+                                                            <source src={`/storage/${message.audio_file_path}`} type="audio/mpeg" />
+                                                            お使いのブラウザは音声再生をサポートしていません。
+                                                        </audio>
+                                                    </div>
                                                 )}
                                                 <p className="text-blue-200 text-xs mt-1">
                                                     {new Date(message.created_at).toLocaleTimeString('ja-JP', {

@@ -1,3 +1,16 @@
+# MIME types for audio files
+<IfModule mod_mime.c>
+    AddType audio/webm .webm
+    AddType audio/mpeg .mp3
+    AddType audio/wav .wav
+    AddType audio/ogg .ogg
+</IfModule>
+
+# Allow access to storage files
+<Directory "storage">
+    Require all granted
+</Directory>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
