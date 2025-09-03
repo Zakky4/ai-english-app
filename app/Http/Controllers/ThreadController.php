@@ -56,7 +56,8 @@ class ThreadController extends Controller
         return Inertia::render('Thread/Show', [
             'thread' => $thread,
             'threads' => $threads,
-            'messages' => $messages
+            'messages' => $messages,
+            'threadId' => $threadId,
         ]);
     }
 
