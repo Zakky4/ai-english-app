@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Http\Services\ApiService;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -35,11 +36,31 @@ class MessageController extends Controller
                 'audio_file_path' => $audioFilePath
             ]);
 
-            return response()->json([
-                'message' => '音声ファイルが正常に保存されました',
-                'file_path' => $audioFilePath,
-                'message_id' => $message->id
-            ], 200);
+            // 音声データをWhisper APIに送信
+            $apiService = new ApiService();
+            $whisperResult = $apiService->callWhisperApi($fullPath);
+            
+            if ($whisperResult['success']) {
+                // 音声認識が成功した場合、メッセージを更新
+                $message->update([
+                    'message_en' => $whisperResult['text']
+                ]);
+                
+                return response()->json([
+                    'message' => '音声ファイルが正常に保存され、音声認識が完了しました',
+                    'file_path' => $audioFilePath,
+                    'message_id' => $message->id,
+                    'transcribed_text' => $whisperResult['text']
+                ], 200);
+            } else {
+                // 音声認識が失敗した場合
+                return response()->json([
+                    'message' => '音声ファイルは保存されましたが、音声認識に失敗しました',
+                    'file_path' => $audioFilePath,
+                    'message_id' => $message->id,
+                    'error' => $whisperResult['error']
+                ], 200);
+            }
         }
         
         return response()->json([
