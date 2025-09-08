@@ -1,12 +1,14 @@
 import { Head } from '@inertiajs/react'
 import { SideMenu } from '../../Components/SideMenu'
 import LogoutButton from '../../Components/LogoutButton'
+import LoadingSpinner from '../../Components/LoadingSpinner'
 import { HiSpeakerphone, HiMicrophone, HiTranslate } from 'react-icons/hi'
 import { useState, useRef } from 'react'
 import axios from 'axios'
 
 export default function Show({ thread, threads, messages }) {
     const [isRecording, setIsRecording] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [recordingTime, setRecordingTime] = useState(0)
     const mediaRecorderRef = useRef(null)
     const audioChunksRef = useRef([])
@@ -59,6 +61,7 @@ export default function Show({ thread, threads, messages }) {
 
     const sendAudioToServer = async (audioBlob) => {
         try {
+            setIsLoading(true)
             const formData = new FormData()
             formData.append('audio', audioBlob, 'recording.webm')
 
@@ -73,10 +76,14 @@ export default function Show({ thread, threads, messages }) {
         } catch (error) {
             console.error('音声ファイルの送信に失敗しました:', error)
             alert('音声ファイルの送信に失敗しました。')
+            setIsLoading(false)
         }
     }
 
     const handleMicrophoneClick = () => {
+        // ローディング中は操作を無効化
+        if (isLoading) return
+        
         if (isRecording) {
             stopRecording()
         } else {
@@ -87,7 +94,7 @@ export default function Show({ thread, threads, messages }) {
     return (
         <>
             <Head title="MyEnglishApp - 英会話学習記録" />
-            <div className="flex h-screen bg-gray-800">
+            <div className={`flex h-screen bg-gray-800 ${isLoading ? 'pointer-events-none' : ''}`}>
                 <SideMenu threads={threads} />
 
                 {/* メインコンテンツエリア */}
@@ -202,20 +209,26 @@ export default function Show({ thread, threads, messages }) {
                             {/* マイクボタン */}
                             <button 
                                 onClick={handleMicrophoneClick}
-                                className={`w-16 h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center ${
-                                    isRecording 
-                                        ? 'bg-red-500 animate-pulse' 
-                                        : 'bg-white hover:bg-gray-100'
+                                disabled={isLoading}
+                                className={`w-16 h-16 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
+                                    isLoading
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : isRecording 
+                                            ? 'bg-red-500 animate-pulse hover:shadow-xl' 
+                                            : 'bg-white hover:bg-gray-100 hover:shadow-xl'
                                 }`}
                             >
                                 <HiMicrophone className={`w-8 h-8 ${
-                                    isRecording ? 'text-white' : 'text-gray-800'
+                                    isLoading ? 'text-gray-600' : isRecording ? 'text-white' : 'text-gray-800'
                                 }`} />
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            {/* ローディングスピナー */}
+            {isLoading && <LoadingSpinner message="音声を処理中..." />}
         </>
     )
 }
