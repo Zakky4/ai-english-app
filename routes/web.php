@@ -13,6 +13,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/thread/{threadId}', [ThreadController::class, 'show'])->name('thread.show');
     // 新規スレッド作成
     Route::get('/thread', [ThreadController::class, 'store'])->name('thread.store');
-    // メッセージ保存処理
+    // メッセージ保存処理（音声）
     Route::post('/thread/{threadId}/message', [MessageController::class, 'store'])->name('message.store');
+    // テキストメッセージ送信処理
+    Route::post('/thread/{threadId}/text-message', [MessageController::class, 'sendTextMessage'])->name('message.text');
 });

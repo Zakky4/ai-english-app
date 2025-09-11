@@ -67,4 +67,88 @@ class ApiService
             ];
         }
     }
+
+    /**
+     * GPT APIにリクエストを送信
+     * @param Collection<Message> $messages メッセージのコレクション
+     */
+    public function callGptApi($messages)
+    {
+        try {
+            // OpenAI APIキーの取得
+            $apiKey = config('services.openai.api_key');
+            if (!$apiKey) {
+                throw new \Exception("OpenAI APIキーが設定されていません。");
+            }
+
+            // メッセージをGPT APIの形式に変換
+            $formattedMessages = $this->formatMessagesForGpt($messages);
+
+            // GPT APIにリクエストを送信
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey,
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o-mini', // gpt-5-nanoは存在しないため、gpt-4o-miniを使用
+                'messages' => $formattedMessages,
+                'max_tokens' => 1000,
+                'temperature' => 0.7,
+            ]);
+
+            // レスポンスの処理
+            if ($response->successful()) {
+                $data = $response->json();
+                return [
+                    'success' => true,
+                    'content' => $data['choices'][0]['message']['content'] ?? '',
+                    'usage' => $data['usage'] ?? null,
+                    'data' => $data
+                ];
+            } else {
+                $errorData = $response->json();
+                return [
+                    'success' => false,
+                    'error' => $errorData['error']['message'] ?? 'GPT APIリクエストが失敗しました。',
+                    'status_code' => $response->status()
+                ];
+            }
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * メッセージをGPT APIの形式に変換
+     * @param Collection<Message> $messages
+     * @return array
+     */
+    private function formatMessagesForGpt($messages)
+    {
+        $formattedMessages = [];
+        
+        // システムメッセージを追加（英語学習アシスタントとして）
+        $formattedMessages[] = [
+            'role' => 'system',
+            'content' => 'You are a helpful English learning assistant. You help users practice English conversation and provide corrections and suggestions for improvement.'
+        ];
+
+        // メッセージを変換
+        foreach ($messages as $message) {
+            $role = $message->isFromUser() ? 'user' : 'assistant';
+            $content = $message->message_en ?? $message->message_ja ?? '';
+            
+            if (!empty($content)) {
+                $formattedMessages[] = [
+                    'role' => $role,
+                    'content' => $content
+                ];
+            }
+        }
+
+        return $formattedMessages;
+    }
 }
