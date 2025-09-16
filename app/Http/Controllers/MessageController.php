@@ -112,20 +112,27 @@ class MessageController extends Controller
             $gptResult = $apiService->callGptApi($messages);
             
             if ($gptResult['success']) {
+                // TTS APIを呼び出して音声ファイルを生成
+                $ttsResult = $apiService->callTtsApi($gptResult['content']);
+                
                 // GPTのレスポンスをデータベースに保存
                 $aiMessage = Message::create([
                     'thread_id' => $threadId,
                     'message_en' => $gptResult['content'],
                     'message_ja' => '', // 必要に応じて翻訳機能を追加
                     'sender' => 2, // AIメッセージ
-                    'audio_file_path' => null
+                    'audio_file_path' => $ttsResult['success'] ? 'ai_audio/' . basename($ttsResult['file_path']) : null
                 ]);
                 
                 return [
                     'success' => true,
                     'content' => $gptResult['content'],
                     'ai_message_id' => $aiMessage->id,
-                    'usage' => $gptResult['usage'] ?? null
+                    'usage' => $gptResult['usage'] ?? null,
+                    'audio_file_path' => $ttsResult['success'] ? 'ai_audio/' . basename($ttsResult['file_path']) : null,
+                    'audio_url' => $ttsResult['success'] ? $ttsResult['file_url'] : null,
+                    'tts_success' => $ttsResult['success'],
+                    'tts_error' => $ttsResult['success'] ? null : $ttsResult['error']
                 ];
             } else {
                 return [

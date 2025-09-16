@@ -151,4 +151,68 @@ class ApiService
 
         return $formattedMessages;
     }
+
+    /**
+     * GPT APIのレスポンスを音声に変換
+     * @param string $text
+     * @return array
+     */
+    public function callTtsApi($text)
+    {
+        try {
+            // OpenAI APIキーの取得
+            $apiKey = config('services.openai.api_key');
+            if (!$apiKey) {
+                throw new \Exception("OpenAI APIキーが設定されていません。");
+            }
+
+            // 音声ファイルの保存先ディレクトリを確認・作成
+            $audioDir = storage_path('app/public/ai_audio');
+            if (!file_exists($audioDir)) {
+                mkdir($audioDir, 0755, true);
+            }
+
+            // 現在日時でファイル名を生成
+            $timestamp = now()->format('YmdHis');
+            $fileName = "tts_{$timestamp}.wav";
+            $filePath = $audioDir . '/' . $fileName;
+
+            // TTS APIにリクエストを送信
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiKey,
+                'Content-Type' => 'application/json',
+            ])->post('https://api.openai.com/v1/audio/speech', [
+                'model' => 'tts-1',
+                'input' => $text,
+                'voice' => 'nova',
+                'response_format' => 'wav'
+            ]);
+
+            // レスポンスの処理
+            if ($response->successful()) {
+                // 音声データをファイルに保存
+                file_put_contents($filePath, $response->body());
+                
+                return [
+                    'success' => true,
+                    'file_path' => $filePath,
+                    'file_name' => $fileName,
+                    'file_url' => asset('storage/audio/' . $fileName)
+                ];
+            } else {
+                $errorData = $response->json();
+                return [
+                    'success' => false,
+                    'error' => $errorData['error']['message'] ?? 'TTS APIリクエストが失敗しました。',
+                    'status_code' => $response->status()
+                ];
+            }
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
 }
