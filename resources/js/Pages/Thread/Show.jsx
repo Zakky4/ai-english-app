@@ -2,7 +2,7 @@ import { Head } from '@inertiajs/react'
 import { SideMenu } from '../../Components/SideMenu'
 import LogoutButton from '../../Components/LogoutButton'
 import LoadingSpinner from '../../Components/LoadingSpinner'
-import { HiSpeakerphone, HiMicrophone, HiTranslate } from 'react-icons/hi'
+import { HiMicrophone, HiTranslate } from 'react-icons/hi'
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 
@@ -222,10 +222,6 @@ export default function Show({ thread, threads, messages }) {
                                                 </p>
                                             </div>
 
-                                            {/* スピーカーボタン */}
-                                            <button className="p-2 text-gray-400 hover:text-white transition-colors">
-                                                <HiSpeakerphone className="w-5 h-5" />
-                                            </button>
 
                                             {/* 日本語/英語切り替えボタン */}
                                             <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm font-medium transition-colors">
