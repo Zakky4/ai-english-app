@@ -18,3 +18,19 @@ Route::middleware('auth')->group(function () {
     // テキストメッセージ送信処理
     Route::post('/thread/{threadId}/text-message', [MessageController::class, 'sendTextMessage'])->name('message.text');
 });
+
+// 音声ファイル配信用ルート（認証不要）
+Route::get('/storage/{path}', function ($path) {
+    $filePath = storage_path('app/public/' . $path);
+    
+    if (!file_exists($filePath)) {
+        abort(404);
+    }
+    
+    $mimeType = mime_content_type($filePath);
+    
+    return response()->file($filePath, [
+        'Content-Type' => $mimeType,
+        'Cache-Control' => 'public, max-age=31536000',
+    ]);
+})->where('path', '.*');

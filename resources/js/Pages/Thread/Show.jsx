@@ -3,7 +3,7 @@ import { SideMenu } from '../../Components/SideMenu'
 import LogoutButton from '../../Components/LogoutButton'
 import LoadingSpinner from '../../Components/LoadingSpinner'
 import { HiSpeakerphone, HiMicrophone, HiTranslate } from 'react-icons/hi'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 
 export default function Show({ thread, threads, messages }) {
@@ -13,6 +13,78 @@ export default function Show({ thread, threads, messages }) {
     const mediaRecorderRef = useRef(null)
     const audioChunksRef = useRef([])
     const recordingIntervalRef = useRef(null)
+    const audioRef = useRef(null)
+
+    // 最新の音声ファイルを自動再生
+    useEffect(() => {
+        const playLatestAudio = async () => {
+            // 音声ファイルを持つメッセージをフィルタリング
+            const messagesWithAudio = messages.filter(message => message.audio_file_path)
+            
+            if (messagesWithAudio.length === 0) {
+                return
+            }
+
+            // 最新のメッセージ（作成日時順）を取得
+            const latestMessage = messagesWithAudio.sort((a, b) => 
+                new Date(b.created_at) - new Date(a.created_at)
+            )[0]
+
+            if (latestMessage && latestMessage.audio_file_path) {
+                try {
+                    // 音声ファイルの存在確認
+                    const audioUrl = `/storage/${latestMessage.audio_file_path}`
+                    
+                    // 音声ファイルの存在を確認
+                    const response = await fetch(audioUrl, { method: 'HEAD' })
+                    if (!response.ok) {
+                        console.error(`音声ファイルが見つかりません: ${audioUrl} (${response.status})`)
+                        return
+                    }
+
+                    // 音声要素を作成
+                    const audio = new Audio(audioUrl)
+                    
+                    // 音声の読み込みエラーハンドリング
+                    audio.addEventListener('error', (e) => {
+                        console.error('音声ファイルの読み込みに失敗しました:', e)
+                        console.error('ファイルパス:', audioUrl)
+                    })
+                    
+                    // 音声の読み込み完了を待つ
+                    audio.addEventListener('canplaythrough', () => {
+                        // 自動再生を試行
+                        const playPromise = audio.play()
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                console.log('自動再生がブロックされました:', error)
+                                // ユーザーが何らかの操作をした後に再生を試行
+                                const playOnInteraction = () => {
+                                    audio.play().catch(console.error)
+                                    document.removeEventListener('click', playOnInteraction)
+                                    document.removeEventListener('keydown', playOnInteraction)
+                                }
+                                document.addEventListener('click', playOnInteraction)
+                                document.addEventListener('keydown', playOnInteraction)
+                            })
+                        }
+                    })
+                    
+                    // 音声の読み込みを開始
+                    audio.load()
+                    
+                } catch (error) {
+                    console.error('音声の再生に失敗しました:', error)
+                }
+            }
+        }
+
+        // メッセージが存在する場合のみ実行
+        if (messages && messages.length > 0) {
+            playLatestAudio()
+        }
+    }, [messages])
 
     const startRecording = async () => {
         try {
