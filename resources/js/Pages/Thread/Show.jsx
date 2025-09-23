@@ -16,6 +16,17 @@ export default function Show({ thread, threads, messages: initialMessages }) {
     const audioChunksRef = useRef([])
     const recordingIntervalRef = useRef(null)
     const audioRef = useRef(null)
+    const messagesEndRef = useRef(null) // メッセージエリアの一番下への参照
+
+    // スクロールを一番下に移動する関数
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    // コンポーネントマウント時とメッセージ更新時にスクロールを一番下に移動
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages])
 
     // 最新の音声ファイルを自動再生
     useEffect(() => {
@@ -342,6 +353,8 @@ export default function Show({ thread, threads, messages: initialMessages }) {
                                     )}
                                 </div>
                             ))}
+                            {/* スクロールのターゲット要素 */}
+                            <div ref={messagesEndRef} />
                         </div>
                     </div>
 
