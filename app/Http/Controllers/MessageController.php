@@ -150,6 +150,64 @@ class MessageController extends Controller
     }
 
     /**
+     * メッセージを翻訳する
+     * @param Request $request
+     * @param int $messageId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function translateMessage(Request $request, int $messageId)
+    {
+        $request->validate([
+            'target_language' => 'required|string|in:ja,en'
+        ]);
+        
+        try {
+            // メッセージを取得
+            $message = Message::findOrFail($messageId);
+            
+            // 翻訳対象のテキストを決定
+            $textToTranslate = $request->target_language === 'ja' 
+                ? $message->message_en 
+                : $message->message_ja;
+            
+            if (empty($textToTranslate)) {
+                return response()->json([
+                    'error' => '翻訳対象のテキストが見つかりません'
+                ], 400);
+            }
+            
+            // 翻訳APIを呼び出し
+            $apiService = new ApiService();
+            $translateResult = $apiService->callTranslateApi($textToTranslate, $request->target_language);
+            
+            if ($translateResult['success']) {
+                // 翻訳結果をデータベースに保存
+                if ($request->target_language === 'ja') {
+                    $message->update(['message_ja' => $translateResult['translated_text']]);
+                } else {
+                    $message->update(['message_en' => $translateResult['translated_text']]);
+                }
+                
+                return response()->json([
+                    'message' => '翻訳が完了しました',
+                    'translated_text' => $translateResult['translated_text'],
+                    'target_language' => $request->target_language,
+                    'usage' => $translateResult['usage'] ?? null
+                ], 200);
+            } else {
+                return response()->json([
+                    'error' => '翻訳に失敗しました: ' . $translateResult['error']
+                ], 500);
+            }
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => '翻訳中にエラーが発生しました: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * テキストメッセージを送信してGPT応答を取得
      * @param Request $request
      * @param int $threadId

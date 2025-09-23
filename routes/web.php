@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/thread/{threadId}/message', [MessageController::class, 'store'])->name('message.store');
     // テキストメッセージ送信処理
     Route::post('/thread/{threadId}/text-message', [MessageController::class, 'sendTextMessage'])->name('message.text');
+    // メッセージ翻訳処理
+    Route::post('/message/{messageId}/translate', [MessageController::class, 'translateMessage'])->name('message.translate');
 });
 
 // 音声ファイル配信用ルート（認証不要）

@@ -153,6 +153,68 @@ class ApiService
     }
 
     /**
+     * テキストを翻訳する
+     * @param string $text 翻訳するテキスト
+     * @param string $targetLanguage 翻訳先言語（'ja' または 'en'）
+     * @return array
+     */
+    public function callTranslateApi($text, $targetLanguage = 'ja')
+    {
+        try {
+            // OpenAI APIキーの取得
+            $apiKey = config('services.openai.api_key');
+            if (!$apiKey) {
+                throw new \Exception("OpenAI APIキーが設定されていません。");
+            }
+
+            // 翻訳先言語に応じてプロンプトを設定
+            $prompt = $targetLanguage === 'ja' 
+                ? "以下の英語を自然な日本語に翻訳してください。翻訳のみを返してください。\n\n{$text}"
+                : "以下の日本語を自然な英語に翻訳してください。翻訳のみを返してください。\n\n{$text}";
+
+            // GPT APIにリクエストを送信
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey,
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o-mini',
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => $prompt
+                    ]
+                ],
+                'max_tokens' => 500,
+                'temperature' => 0.3,
+            ]);
+
+            // レスポンスの処理
+            if ($response->successful()) {
+                $data = $response->json();
+                return [
+                    'success' => true,
+                    'translated_text' => trim($data['choices'][0]['message']['content'] ?? ''),
+                    'usage' => $data['usage'] ?? null,
+                    'data' => $data
+                ];
+            } else {
+                $errorData = $response->json();
+                return [
+                    'success' => false,
+                    'error' => $errorData['error']['message'] ?? '翻訳APIリクエストが失敗しました。',
+                    'status_code' => $response->status()
+                ];
+            }
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
      * GPT APIのレスポンスを音声に変換
      * @param string $text
      * @return array

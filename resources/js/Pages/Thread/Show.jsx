@@ -6,10 +6,12 @@ import { HiMicrophone, HiTranslate } from 'react-icons/hi'
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 
-export default function Show({ thread, threads, messages }) {
+export default function Show({ thread, threads, messages: initialMessages }) {
     const [isRecording, setIsRecording] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [recordingTime, setRecordingTime] = useState(0)
+    const [messages, setMessages] = useState(initialMessages) // メッセージの状態を管理
+    const [isTranslating, setIsTranslating] = useState({}) // 各メッセージの翻訳状態を管理
     const mediaRecorderRef = useRef(null)
     const audioChunksRef = useRef([])
     const recordingIntervalRef = useRef(null)
@@ -18,6 +20,11 @@ export default function Show({ thread, threads, messages }) {
     // 最新の音声ファイルを自動再生
     useEffect(() => {
         const playLatestAudio = async () => {
+            // ローディング中（翻訳処理中）の場合は音声を再生しない
+            if (isLoading) {
+                return
+            }
+
             // 音声ファイルを持つメッセージをフィルタリング
             const messagesWithAudio = messages.filter(message => message.audio_file_path)
             
@@ -53,21 +60,25 @@ export default function Show({ thread, threads, messages }) {
                     
                     // 音声の読み込み完了を待つ
                     audio.addEventListener('canplaythrough', () => {
-                        // 自動再生を試行
-                        const playPromise = audio.play()
-                        
-                        if (playPromise !== undefined) {
-                            playPromise.catch(error => {
-                                console.log('自動再生がブロックされました:', error)
-                                // ユーザーが何らかの操作をした後に再生を試行
-                                const playOnInteraction = () => {
-                                    audio.play().catch(console.error)
-                                    document.removeEventListener('click', playOnInteraction)
-                                    document.removeEventListener('keydown', playOnInteraction)
-                                }
-                                document.addEventListener('click', playOnInteraction)
-                                document.addEventListener('keydown', playOnInteraction)
-                            })
+                        // ローディング中でない場合のみ自動再生を試行
+                        if (!isLoading) {
+                            const playPromise = audio.play()
+                            
+                            if (playPromise !== undefined) {
+                                playPromise.catch(error => {
+                                    console.log('自動再生がブロックされました:', error)
+                                    // ユーザーが何らかの操作をした後に再生を試行
+                                    const playOnInteraction = () => {
+                                        if (!isLoading) {
+                                            audio.play().catch(console.error)
+                                        }
+                                        document.removeEventListener('click', playOnInteraction)
+                                        document.removeEventListener('keydown', playOnInteraction)
+                                    }
+                                    document.addEventListener('click', playOnInteraction)
+                                    document.addEventListener('keydown', playOnInteraction)
+                                })
+                            }
                         }
                     })
                     
@@ -80,11 +91,11 @@ export default function Show({ thread, threads, messages }) {
             }
         }
 
-        // メッセージが存在する場合のみ実行
-        if (messages && messages.length > 0) {
+        // メッセージが存在し、ローディング中でない場合のみ実行
+        if (messages && messages.length > 0 && !isLoading) {
             playLatestAudio()
         }
-    }, [messages])
+    }, [messages, isLoading])
 
     const startRecording = async () => {
         try {
@@ -163,6 +174,59 @@ export default function Show({ thread, threads, messages }) {
         }
     }
 
+    // 翻訳機能
+    const handleTranslateClick = async (messageId, currentLanguage) => {
+        // 既に翻訳中の場合は何もしない
+        if (isTranslating[messageId]) return
+
+        try {
+            setIsTranslating(prev => ({ ...prev, [messageId]: true }))
+            
+            // 翻訳処理中は音声自動再生を無効化
+            setIsLoading(true)
+            
+            // 翻訳先言語を決定
+            const targetLanguage = currentLanguage === 'en' ? 'ja' : 'en'
+            
+            const response = await axios.post(`/message/${messageId}/translate`, {
+                target_language: targetLanguage
+            })
+
+            if (response.data.translated_text) {
+                // 翻訳成功時はメッセージの状態を更新
+                setMessages(prevMessages => 
+                    prevMessages.map(message => {
+                        if (message.id === messageId) {
+                            if (targetLanguage === 'ja') {
+                                return { ...message, message_ja: response.data.translated_text }
+                            } else {
+                                return { ...message, message_en: response.data.translated_text }
+                            }
+                        }
+                        return message
+                    })
+                )
+            } else {
+                alert('翻訳に失敗しました。')
+            }
+        } catch (error) {
+            console.error('翻訳エラー:', error)
+            alert('翻訳に失敗しました。')
+        } finally {
+            setIsTranslating(prev => ({ ...prev, [messageId]: false }))
+            setIsLoading(false)
+        }
+    }
+
+    // 翻訳ボタンの表示状態を取得
+    const getTranslateButtonText = (message) => {
+        if (isTranslating[message.id]) {
+            return '翻訳中...'
+        }
+        // 日本語が存在する場合は「Aあ」、存在しない場合は「翻訳」
+        return message.message_ja ? 'Aあ' : '翻訳'
+    }
+
     return (
         <>
             <Head title="MyEnglishApp - 英会話学習記録" />
@@ -223,9 +287,15 @@ export default function Show({ thread, threads, messages }) {
                                             </div>
 
 
-                                            {/* 日本語/英語切り替えボタン */}
-                                            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm font-medium transition-colors">
-                                                Aあ
+                                            {/* 翻訳ボタン */}
+                                            <button 
+                                                onClick={() => handleTranslateClick(message.id, 'en')}
+                                                disabled={isTranslating[message.id]}
+                                                className={`bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                                                    isTranslating[message.id] ? 'opacity-50 cursor-not-allowed' : ''
+                                                }`}
+                                            >
+                                                {getTranslateButtonText(message)}
                                             </button>
                                         </div>
                                     )}
@@ -254,6 +324,17 @@ export default function Show({ thread, threads, messages }) {
                                                     })}
                                                 </p>
                                             </div>
+
+                                            {/* 翻訳ボタン */}
+                                            <button 
+                                                onClick={() => handleTranslateClick(message.id, 'en')}
+                                                disabled={isTranslating[message.id]}
+                                                className={`bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                                                    isTranslating[message.id] ? 'opacity-50 cursor-not-allowed' : ''
+                                                }`}
+                                            >
+                                                {getTranslateButtonText(message)}
+                                            </button>
 
                                             {/* ユーザーラベル */}
                                             <span className="text-gray-400 text-sm">You</span>
