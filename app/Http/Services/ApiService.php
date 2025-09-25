@@ -133,7 +133,7 @@ class ApiService
         // システムメッセージを追加（英語学習アシスタントとして）
         $formattedMessages[] = [
             'role' => 'system',
-            'content' => 'You are a helpful English learning assistant. You help users practice English conversation and provide corrections and suggestions for improvement.'
+            'content' => 'You are a friendly person who has casual conversations with users in English. You respond naturally and keep the conversation engaging. Unless the user specifically asks, do not provide lists, extensive advice, or instructional content.'
         ];
 
         // メッセージを変換
