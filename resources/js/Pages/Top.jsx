@@ -1,6 +1,7 @@
 import { Head } from '@inertiajs/react'
 import { SideMenu } from '../Components/SideMenu'
 import LogoutButton from '../Components/LogoutButton'
+import LearningRecordGrid from '../Components/LearningRecordGrid'
 
 export default function Top({ threads }) {
     return (
@@ -29,64 +30,7 @@ export default function Top({ threads }) {
                         </div>
 
                         {/* 学習記録グリッド */}
-                        <div className="bg-gray-700 p-6 rounded-lg">
-                            <div className="grid grid-cols-7 gap-1">
-                                {/* 7列 x 6行 = 42セル */}
-                                {/* 1行目 */}
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-green-500 border border-gray-500 rounded"></div>
-                                
-                                {/* 2行目 */}
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-green-500 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                
-                                {/* 3行目 */}
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                
-                                {/* 4行目 */}
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                
-                                {/* 5行目 */}
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                
-                                {/* 6行目 */}
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                                <div className="w-16 h-16 bg-gray-300 border border-gray-500 rounded"></div>
-                            </div>
-                        </div>
+                        <LearningRecordGrid />
                     </main>
                 </div>
             </div>
