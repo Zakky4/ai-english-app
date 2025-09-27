@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
+// ルート「/」にアクセスした際は「/top」にリダイレクト
+Route::get('/', function () {
+    return redirect('/top');
+});
+
 Route::middleware('auth')->group(function () {
     // トップ画面
     Route::get('/top', [ThreadController::class, 'index'])->name('top');
