@@ -3,7 +3,7 @@ import { SideMenu } from '../Components/SideMenu'
 import LogoutButton from '../Components/LogoutButton'
 import LearningRecordGrid from '../Components/LearningRecordGrid'
 
-export default function Top({ threads }) {
+export default function Top({ threads, learningData }) {
     return (
         <>
             <Head title="MyEnglishApp - 英会話学習記録" />
@@ -30,7 +30,7 @@ export default function Top({ threads }) {
                         </div>
 
                         {/* 学習記録グリッド */}
-                        <LearningRecordGrid />
+                        <LearningRecordGrid learningData={learningData} />
                     </main>
                 </div>
             </div>

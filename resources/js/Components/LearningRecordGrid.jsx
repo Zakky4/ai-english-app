@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-export default function LearningRecordGrid() {
+export default function LearningRecordGrid({ learningData }) {
     const [gridData, setGridData] = useState([])
     const [currentDate, setCurrentDate] = useState(new Date())
     const [cellSize, setCellSize] = useState(16) // デフォルトサイズ（px）
@@ -33,44 +33,49 @@ export default function LearningRecordGrid() {
     // 過去3ヶ月分の日付データを生成
     useEffect(() => {
         const generateGridData = () => {
-            const today = new Date()
-            const threeMonthsAgo = new Date(today)
-            threeMonthsAgo.setMonth(today.getMonth() - 3)
+            if (!learningData) return
 
-            // 3ヶ月前の最初の日曜日を取得
-            const startDate = new Date(threeMonthsAgo)
-            startDate.setDate(threeMonthsAgo.getDate() - threeMonthsAgo.getDay())
+            const today = new Date()
+            const thisWeekSunday = new Date(learningData.thisWeekSunday)
+            const startDate = new Date(learningData.startDate)
+            const endDate = new Date(learningData.endDate)
 
             const data = []
-            const currentDate = new Date(startDate)
-
-            // 12週分のデータを生成
+            
+            // 今週から過去12週分のデータを生成（右から左に向かって）
             for (let week = 0; week < 12; week++) {
                 const weekData = []
+                const weekStartDate = new Date(thisWeekSunday)
+                weekStartDate.setDate(thisWeekSunday.getDate() - (week * 7))
+                
                 for (let day = 0; day < 7; day++) {
-                    const cellDate = new Date(currentDate)
-                    cellDate.setDate(currentDate.getDate() + day)
+                    const cellDate = new Date(weekStartDate)
+                    cellDate.setDate(weekStartDate.getDate() + day)
                     
                     // 今日より未来の日付は表示しない
                     const isFuture = cellDate > today
-                    const isWithinRange = cellDate >= threeMonthsAgo && cellDate <= today
+                    const isWithinRange = cellDate >= startDate && cellDate <= endDate
+                    
+                    // 学習日かどうかを判定
+                    const dateString = cellDate.toISOString().split('T')[0]
+                    const hasActivity = learningData.learningDates.includes(dateString)
                     
                     weekData.push({
                         date: cellDate,
                         isFuture,
                         isWithinRange,
-                        hasActivity: Math.random() > 0.7 // 仮の学習記録データ（30%の確率で学習あり）
+                        hasActivity
                     })
                 }
-                data.push(weekData)
-                currentDate.setDate(currentDate.getDate() + 7)
+                // データを逆順で追加（右から左の表示順序にするため）
+                data.unshift(weekData)
             }
 
             setGridData(data)
         }
 
         generateGridData()
-    }, [])
+    }, [learningData])
 
     // ウィンドウリサイズ時の処理
     useEffect(() => {

@@ -19,8 +19,12 @@ class ThreadController extends Controller
         // 全スレッドを取得（作成日時順）
         $threads = Thread::orderBy('id', 'desc')->get();
         
+        // 学習記録データを取得
+        $learningData = $this->getLearningData();
+        
         return Inertia::render('Top', [
-            'threads' => $threads
+            'threads' => $threads,
+            'learningData' => $learningData
         ]);
     }
 
@@ -83,5 +87,36 @@ class ThreadController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    /**
+     * 学習記録データを取得
+     */
+    private function getLearningData(): array
+    {
+        $today = now();
+        
+        // 今週の日曜日を取得
+        $thisWeekSunday = $today->copy()->startOfWeek();
+        
+        // 今週を基準に3ヶ月前の日曜日を取得
+        $threeMonthsAgoFromThisWeek = $thisWeekSunday->copy()->subMonths(3);
+        
+        // 過去3ヶ月間のメッセージが存在する日付を取得
+        $learningDates = Message::selectRaw('DATE(created_at) as learning_date')
+            ->whereBetween('created_at', [$threeMonthsAgoFromThisWeek, $today])
+            ->distinct()
+            ->pluck('learning_date')
+            ->map(function ($date) {
+                return \Carbon\Carbon::parse($date)->format('Y-m-d');
+            })
+            ->toArray();
+
+        return [
+            'learningDates' => $learningDates,
+            'startDate' => $threeMonthsAgoFromThisWeek->format('Y-m-d'),
+            'endDate' => $today->format('Y-m-d'),
+            'thisWeekSunday' => $thisWeekSunday->format('Y-m-d')
+        ];
     }
 }
