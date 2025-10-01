@@ -14,7 +14,7 @@
 - **バックエンド**: Laravel 11 (PHP 8.2+)
 - **フロントエンド**: React 18 + Inertia.js
 - **スタイリング**: Tailwind CSS + Flowbite
-- **データベース**: SQLite
+- **データベース**: MySQL
 - **認証**: Laravel Breeze
 - **ビルドツール**: Vite
 
